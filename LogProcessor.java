@@ -16,6 +16,7 @@ public class LogProcessor {
             this.logLevel = logLevel;
             this.message = message;
         }
+        //This is the toString method that returns the log entry in the format of timestamp logLevel message
         @Override
         public String toString() {
             return "[" + timestamp + "] " + logLevel + " " + message;
@@ -36,10 +37,10 @@ public class LogProcessor {
         int warnCount = 0;
         int errorCount = 0;
         int memoryWarnCount = 0;
-        // To store the last 100 errors
+        // This is used to store the last 100 errors
         List<LogEntry> recentErrors = new ArrayList<>();
         try {
-            // Reads the current log file using BufferedReader
+            // This reads the current log file using BufferedReader
             BufferedReader br = new BufferedReader(new FileReader(filePath));
             String line;
             while ((line = br.readLine()) != null) {
@@ -48,15 +49,15 @@ public class LogProcessor {
                 if (parts.length < 3) continue;
                 // Combine the first two parts as the timestamp (date + time)
                 String timestamp = parts[0] + " " + parts[1];
-                // Extract the log level (first word of the third part)
+                // Extracts the log level (first word of the third part)
                 String logLevel = parts[2].substring(0, parts[2].indexOf(" "));
-                // Extract the message (the rest of the third part)
+                // Extracts the message (the rest of the third part)
                 String message = parts[2].substring(parts[2].indexOf(" ") + 1);
-                // Create a new log entry object with the timestamp, log level,
+                // Creates a new log entry object with the timestamp, log level,
                 LogEntry logEntry = new LogEntry(timestamp, logLevel, message);
                 logQueue.offer(logEntry);
             }
-            // Process each log entry in the queue
+            // This while loop processes each log entry in the queue
             while (!logQueue.isEmpty()) {
                 LogEntry logEntry = logQueue.poll();
                 String logLevel = logEntry.logLevel;
